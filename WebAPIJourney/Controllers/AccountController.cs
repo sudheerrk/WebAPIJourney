@@ -29,7 +29,11 @@ namespace WebAPIJourney.Controllers
         public AccountController()
         {
         }
-
+        /// <summary>
+        /// account controller initialisation/constructor. Takes two params ApplicationUserManager and ISecureDataFormat<AuthenticationTicket>
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="accessTokenFormat"></param>
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
