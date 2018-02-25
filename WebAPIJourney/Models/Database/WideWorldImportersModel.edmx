@@ -1,0 +1,749 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WideWorldImportersModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PurchaseOrderLines">
+          <Key>
+            <PropertyRef Name="PurchaseOrderLineID" />
+          </Key>
+          <Property Name="PurchaseOrderLineID" Type="int" Nullable="false" />
+          <Property Name="PurchaseOrderID" Type="int" Nullable="false" />
+          <Property Name="StockItemID" Type="int" Nullable="false" />
+          <Property Name="OrderedOuters" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ReceivedOuters" Type="int" Nullable="false" />
+          <Property Name="PackageTypeID" Type="int" Nullable="false" />
+          <Property Name="ExpectedUnitPricePerOuter" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LastReceiptDate" Type="date" />
+          <Property Name="IsOrderLineFinalized" Type="bit" Nullable="false" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="LastEditedWhen" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PurchaseOrders">
+          <Key>
+            <PropertyRef Name="PurchaseOrderID" />
+          </Key>
+          <Property Name="PurchaseOrderID" Type="int" Nullable="false" />
+          <Property Name="SupplierID" Type="int" Nullable="false" />
+          <Property Name="OrderDate" Type="date" Nullable="false" />
+          <Property Name="DeliveryMethodID" Type="int" Nullable="false" />
+          <Property Name="ContactPersonID" Type="int" Nullable="false" />
+          <Property Name="ExpectedDeliveryDate" Type="date" />
+          <Property Name="SupplierReference" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsOrderFinalized" Type="bit" Nullable="false" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="InternalComments" Type="nvarchar(max)" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="LastEditedWhen" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupplierCategories">
+          <Key>
+            <PropertyRef Name="SupplierCategoryID" />
+          </Key>
+          <Property Name="SupplierCategoryID" Type="int" Nullable="false" />
+          <Property Name="SupplierCategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WideWorldImporters.Purchasing.SupplierCategories_Archive' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SupplierCategories_Archive">
+          <Key>
+            <PropertyRef Name="SupplierCategoryID" />
+            <PropertyRef Name="SupplierCategoryName" />
+            <PropertyRef Name="LastEditedBy" />
+            <PropertyRef Name="ValidFrom" />
+            <PropertyRef Name="ValidTo" />
+          </Key>
+          <Property Name="SupplierCategoryID" Type="int" Nullable="false" />
+          <Property Name="SupplierCategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Suppliers">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+          </Key>
+          <Property Name="SupplierID" Type="int" Nullable="false" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SupplierCategoryID" Type="int" Nullable="false" />
+          <Property Name="PrimaryContactPersonID" Type="int" Nullable="false" />
+          <Property Name="AlternateContactPersonID" Type="int" Nullable="false" />
+          <Property Name="DeliveryMethodID" Type="int" />
+          <Property Name="DeliveryCityID" Type="int" Nullable="false" />
+          <Property Name="PostalCityID" Type="int" Nullable="false" />
+          <Property Name="SupplierReference" Type="nvarchar" MaxLength="20" />
+          <Property Name="BankAccountName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BankAccountBranch" Type="nvarchar" MaxLength="50" />
+          <Property Name="BankAccountCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="BankAccountNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="BankInternationalCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="PaymentDays" Type="int" Nullable="false" />
+          <Property Name="InternalComments" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="FaxNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="WebsiteURL" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="DeliveryAddressLine1" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DeliveryAddressLine2" Type="nvarchar" MaxLength="60" />
+          <Property Name="DeliveryPostalCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DeliveryLocation" Type="geography" />
+          <Property Name="PostalAddressLine1" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="PostalAddressLine2" Type="nvarchar" MaxLength="60" />
+          <Property Name="PostalPostalCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'WideWorldImporters.Purchasing.Suppliers_Archive' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Suppliers_Archive">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+            <PropertyRef Name="SupplierName" />
+            <PropertyRef Name="SupplierCategoryID" />
+            <PropertyRef Name="PrimaryContactPersonID" />
+            <PropertyRef Name="AlternateContactPersonID" />
+            <PropertyRef Name="DeliveryCityID" />
+            <PropertyRef Name="PostalCityID" />
+            <PropertyRef Name="PaymentDays" />
+            <PropertyRef Name="PhoneNumber" />
+            <PropertyRef Name="FaxNumber" />
+            <PropertyRef Name="WebsiteURL" />
+            <PropertyRef Name="DeliveryAddressLine1" />
+            <PropertyRef Name="DeliveryPostalCode" />
+            <PropertyRef Name="PostalAddressLine1" />
+            <PropertyRef Name="PostalPostalCode" />
+            <PropertyRef Name="LastEditedBy" />
+            <PropertyRef Name="ValidFrom" />
+            <PropertyRef Name="ValidTo" />
+          </Key>
+          <Property Name="SupplierID" Type="int" Nullable="false" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SupplierCategoryID" Type="int" Nullable="false" />
+          <Property Name="PrimaryContactPersonID" Type="int" Nullable="false" />
+          <Property Name="AlternateContactPersonID" Type="int" Nullable="false" />
+          <Property Name="DeliveryMethodID" Type="int" />
+          <Property Name="DeliveryCityID" Type="int" Nullable="false" />
+          <Property Name="PostalCityID" Type="int" Nullable="false" />
+          <Property Name="SupplierReference" Type="nvarchar" MaxLength="20" />
+          <Property Name="BankAccountName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BankAccountBranch" Type="nvarchar" MaxLength="50" />
+          <Property Name="BankAccountCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="BankAccountNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="BankInternationalCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="PaymentDays" Type="int" Nullable="false" />
+          <Property Name="InternalComments" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="FaxNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="WebsiteURL" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="DeliveryAddressLine1" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DeliveryAddressLine2" Type="nvarchar" MaxLength="60" />
+          <Property Name="DeliveryPostalCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DeliveryLocation" Type="geography" />
+          <Property Name="PostalAddressLine1" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="PostalAddressLine2" Type="nvarchar" MaxLength="60" />
+          <Property Name="PostalPostalCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupplierTransactions">
+          <Key>
+            <PropertyRef Name="SupplierTransactionID" />
+          </Key>
+          <Property Name="SupplierTransactionID" Type="int" Nullable="false" />
+          <Property Name="SupplierID" Type="int" Nullable="false" />
+          <Property Name="TransactionTypeID" Type="int" Nullable="false" />
+          <Property Name="PurchaseOrderID" Type="int" />
+          <Property Name="PaymentMethodID" Type="int" />
+          <Property Name="SupplierInvoiceNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="TransactionDate" Type="date" Nullable="false" />
+          <Property Name="AmountExcludingTax" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TaxAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TransactionAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="OutstandingBalance" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="FinalizationDate" Type="date" />
+          <Property Name="IsFinalized" Type="bit" StoreGeneratedPattern="Computed" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="LastEditedWhen" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Purchasing_PurchaseOrderLines_PurchaseOrderID_Purchasing_PurchaseOrders">
+          <End Role="PurchaseOrders" Type="Self.PurchaseOrders" Multiplicity="1" />
+          <End Role="PurchaseOrderLines" Type="Self.PurchaseOrderLines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrders">
+              <PropertyRef Name="PurchaseOrderID" />
+            </Principal>
+            <Dependent Role="PurchaseOrderLines">
+              <PropertyRef Name="PurchaseOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchasing_PurchaseOrders_SupplierID_Purchasing_Suppliers">
+          <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="1" />
+          <End Role="PurchaseOrders" Type="Self.PurchaseOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="PurchaseOrders">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchasing_Suppliers_SupplierCategoryID_Purchasing_SupplierCategories">
+          <End Role="SupplierCategories" Type="Self.SupplierCategories" Multiplicity="1" />
+          <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierCategories">
+              <PropertyRef Name="SupplierCategoryID" />
+            </Principal>
+            <Dependent Role="Suppliers">
+              <PropertyRef Name="SupplierCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchasing_SupplierTransactions_PurchaseOrderID_Purchasing_PurchaseOrders">
+          <End Role="PurchaseOrders" Type="Self.PurchaseOrders" Multiplicity="0..1" />
+          <End Role="SupplierTransactions" Type="Self.SupplierTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrders">
+              <PropertyRef Name="PurchaseOrderID" />
+            </Principal>
+            <Dependent Role="SupplierTransactions">
+              <PropertyRef Name="PurchaseOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchasing_SupplierTransactions_SupplierID_Purchasing_Suppliers">
+          <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="1" />
+          <End Role="SupplierTransactions" Type="Self.SupplierTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="SupplierTransactions">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WideWorldImportersModelStoreContainer">
+          <EntitySet Name="PurchaseOrderLines" EntityType="Self.PurchaseOrderLines" Schema="Purchasing" store:Type="Tables" />
+          <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrders" Schema="Purchasing" store:Type="Tables" />
+          <EntitySet Name="SupplierCategories" EntityType="Self.SupplierCategories" Schema="Purchasing" store:Type="Tables" />
+          <EntitySet Name="Suppliers" EntityType="Self.Suppliers" Schema="Purchasing" store:Type="Tables" />
+          <EntitySet Name="SupplierTransactions" EntityType="Self.SupplierTransactions" Schema="Purchasing" store:Type="Tables" />
+          <EntitySet Name="SupplierCategories_Archive" EntityType="Self.SupplierCategories_Archive" store:Type="Tables" store:Schema="Purchasing">
+            <DefiningQuery>SELECT 
+    [SupplierCategories_Archive].[SupplierCategoryID] AS [SupplierCategoryID], 
+    [SupplierCategories_Archive].[SupplierCategoryName] AS [SupplierCategoryName], 
+    [SupplierCategories_Archive].[LastEditedBy] AS [LastEditedBy], 
+    [SupplierCategories_Archive].[ValidFrom] AS [ValidFrom], 
+    [SupplierCategories_Archive].[ValidTo] AS [ValidTo]
+    FROM [Purchasing].[SupplierCategories_Archive] AS [SupplierCategories_Archive]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Suppliers_Archive" EntityType="Self.Suppliers_Archive" store:Type="Tables" store:Schema="Purchasing">
+            <DefiningQuery>SELECT 
+    [Suppliers_Archive].[SupplierID] AS [SupplierID], 
+    [Suppliers_Archive].[SupplierName] AS [SupplierName], 
+    [Suppliers_Archive].[SupplierCategoryID] AS [SupplierCategoryID], 
+    [Suppliers_Archive].[PrimaryContactPersonID] AS [PrimaryContactPersonID], 
+    [Suppliers_Archive].[AlternateContactPersonID] AS [AlternateContactPersonID], 
+    [Suppliers_Archive].[DeliveryMethodID] AS [DeliveryMethodID], 
+    [Suppliers_Archive].[DeliveryCityID] AS [DeliveryCityID], 
+    [Suppliers_Archive].[PostalCityID] AS [PostalCityID], 
+    [Suppliers_Archive].[SupplierReference] AS [SupplierReference], 
+    [Suppliers_Archive].[BankAccountName] AS [BankAccountName], 
+    [Suppliers_Archive].[BankAccountBranch] AS [BankAccountBranch], 
+    [Suppliers_Archive].[BankAccountCode] AS [BankAccountCode], 
+    [Suppliers_Archive].[BankAccountNumber] AS [BankAccountNumber], 
+    [Suppliers_Archive].[BankInternationalCode] AS [BankInternationalCode], 
+    [Suppliers_Archive].[PaymentDays] AS [PaymentDays], 
+    [Suppliers_Archive].[InternalComments] AS [InternalComments], 
+    [Suppliers_Archive].[PhoneNumber] AS [PhoneNumber], 
+    [Suppliers_Archive].[FaxNumber] AS [FaxNumber], 
+    [Suppliers_Archive].[WebsiteURL] AS [WebsiteURL], 
+    [Suppliers_Archive].[DeliveryAddressLine1] AS [DeliveryAddressLine1], 
+    [Suppliers_Archive].[DeliveryAddressLine2] AS [DeliveryAddressLine2], 
+    [Suppliers_Archive].[DeliveryPostalCode] AS [DeliveryPostalCode], 
+    [Suppliers_Archive].[DeliveryLocation] AS [DeliveryLocation], 
+    [Suppliers_Archive].[PostalAddressLine1] AS [PostalAddressLine1], 
+    [Suppliers_Archive].[PostalAddressLine2] AS [PostalAddressLine2], 
+    [Suppliers_Archive].[PostalPostalCode] AS [PostalPostalCode], 
+    [Suppliers_Archive].[LastEditedBy] AS [LastEditedBy], 
+    [Suppliers_Archive].[ValidFrom] AS [ValidFrom], 
+    [Suppliers_Archive].[ValidTo] AS [ValidTo]
+    FROM [Purchasing].[Suppliers_Archive] AS [Suppliers_Archive]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Purchasing_PurchaseOrderLines_PurchaseOrderID_Purchasing_PurchaseOrders" Association="Self.FK_Purchasing_PurchaseOrderLines_PurchaseOrderID_Purchasing_PurchaseOrders">
+            <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
+            <End Role="PurchaseOrderLines" EntitySet="PurchaseOrderLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchasing_PurchaseOrders_SupplierID_Purchasing_Suppliers" Association="Self.FK_Purchasing_PurchaseOrders_SupplierID_Purchasing_Suppliers">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchasing_Suppliers_SupplierCategoryID_Purchasing_SupplierCategories" Association="Self.FK_Purchasing_Suppliers_SupplierCategoryID_Purchasing_SupplierCategories">
+            <End Role="SupplierCategories" EntitySet="SupplierCategories" />
+            <End Role="Suppliers" EntitySet="Suppliers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchasing_SupplierTransactions_PurchaseOrderID_Purchasing_PurchaseOrders" Association="Self.FK_Purchasing_SupplierTransactions_PurchaseOrderID_Purchasing_PurchaseOrders">
+            <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
+            <End Role="SupplierTransactions" EntitySet="SupplierTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchasing_SupplierTransactions_SupplierID_Purchasing_Suppliers" Association="Self.FK_Purchasing_SupplierTransactions_SupplierID_Purchasing_Suppliers">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="SupplierTransactions" EntitySet="SupplierTransactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WideWorldImportersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PurchaseOrderLine">
+          <Key>
+            <PropertyRef Name="PurchaseOrderLineID" />
+          </Key>
+          <Property Name="PurchaseOrderLineID" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseOrderID" Type="Int32" Nullable="false" />
+          <Property Name="StockItemID" Type="Int32" Nullable="false" />
+          <Property Name="OrderedOuters" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReceivedOuters" Type="Int32" Nullable="false" />
+          <Property Name="PackageTypeID" Type="Int32" Nullable="false" />
+          <Property Name="ExpectedUnitPricePerOuter" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LastReceiptDate" Type="DateTime" Precision="0" />
+          <Property Name="IsOrderLineFinalized" Type="Boolean" Nullable="false" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="LastEditedWhen" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="PurchaseOrder" Relationship="Self.FK_Purchasing_PurchaseOrderLines_PurchaseOrderID_Purchasing_PurchaseOrders" FromRole="PurchaseOrderLines" ToRole="PurchaseOrders" />
+        </EntityType>
+        <EntityType Name="PurchaseOrder">
+          <Key>
+            <PropertyRef Name="PurchaseOrderID" />
+          </Key>
+          <Property Name="PurchaseOrderID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DeliveryMethodID" Type="Int32" Nullable="false" />
+          <Property Name="ContactPersonID" Type="Int32" Nullable="false" />
+          <Property Name="ExpectedDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="SupplierReference" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsOrderFinalized" Type="Boolean" Nullable="false" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InternalComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="LastEditedWhen" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="PurchaseOrderLines" Relationship="Self.FK_Purchasing_PurchaseOrderLines_PurchaseOrderID_Purchasing_PurchaseOrders" FromRole="PurchaseOrders" ToRole="PurchaseOrderLines" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_Purchasing_PurchaseOrders_SupplierID_Purchasing_Suppliers" FromRole="PurchaseOrders" ToRole="Suppliers" />
+          <NavigationProperty Name="SupplierTransactions" Relationship="Self.FK_Purchasing_SupplierTransactions_PurchaseOrderID_Purchasing_PurchaseOrders" FromRole="PurchaseOrders" ToRole="SupplierTransactions" />
+        </EntityType>
+        <EntityType Name="SupplierCategory">
+          <Key>
+            <PropertyRef Name="SupplierCategoryID" />
+          </Key>
+          <Property Name="SupplierCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Suppliers" Relationship="Self.FK_Purchasing_Suppliers_SupplierCategoryID_Purchasing_SupplierCategories" FromRole="SupplierCategories" ToRole="Suppliers" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+          </Key>
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SupplierCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="PrimaryContactPersonID" Type="Int32" Nullable="false" />
+          <Property Name="AlternateContactPersonID" Type="Int32" Nullable="false" />
+          <Property Name="DeliveryMethodID" Type="Int32" />
+          <Property Name="DeliveryCityID" Type="Int32" Nullable="false" />
+          <Property Name="PostalCityID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierReference" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BankAccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BankAccountBranch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BankAccountCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BankAccountNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BankInternationalCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentDays" Type="Int32" Nullable="false" />
+          <Property Name="InternalComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FaxNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WebsiteURL" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeliveryAddressLine1" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeliveryAddressLine2" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryPostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeliveryLocation" Type="Geography" />
+          <Property Name="PostalAddressLine1" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostalAddressLine2" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="PostalPostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_Purchasing_PurchaseOrders_SupplierID_Purchasing_Suppliers" FromRole="Suppliers" ToRole="PurchaseOrders" />
+          <NavigationProperty Name="SupplierCategory" Relationship="Self.FK_Purchasing_Suppliers_SupplierCategoryID_Purchasing_SupplierCategories" FromRole="Suppliers" ToRole="SupplierCategories" />
+          <NavigationProperty Name="SupplierTransactions" Relationship="Self.FK_Purchasing_SupplierTransactions_SupplierID_Purchasing_Suppliers" FromRole="Suppliers" ToRole="SupplierTransactions" />
+        </EntityType>
+        <EntityType Name="SupplierTransaction">
+          <Key>
+            <PropertyRef Name="SupplierTransactionID" />
+          </Key>
+          <Property Name="SupplierTransactionID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
+          <Property Name="TransactionTypeID" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseOrderID" Type="Int32" />
+          <Property Name="PaymentMethodID" Type="Int32" />
+          <Property Name="SupplierInvoiceNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AmountExcludingTax" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TaxAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TransactionAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="OutstandingBalance" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="FinalizationDate" Type="DateTime" Precision="0" />
+          <Property Name="IsFinalized" Type="Boolean" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="LastEditedWhen" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="PurchaseOrder" Relationship="Self.FK_Purchasing_SupplierTransactions_PurchaseOrderID_Purchasing_PurchaseOrders" FromRole="SupplierTransactions" ToRole="PurchaseOrders" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_Purchasing_SupplierTransactions_SupplierID_Purchasing_Suppliers" FromRole="SupplierTransactions" ToRole="Suppliers" />
+        </EntityType>
+        <EntityType Name="SupplierCategories_Archive">
+          <Key>
+            <PropertyRef Name="SupplierCategoryID" />
+            <PropertyRef Name="SupplierCategoryName" />
+            <PropertyRef Name="LastEditedBy" />
+            <PropertyRef Name="ValidFrom" />
+            <PropertyRef Name="ValidTo" />
+          </Key>
+          <Property Name="SupplierCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="Suppliers_Archive">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+            <PropertyRef Name="SupplierName" />
+            <PropertyRef Name="SupplierCategoryID" />
+            <PropertyRef Name="PrimaryContactPersonID" />
+            <PropertyRef Name="AlternateContactPersonID" />
+            <PropertyRef Name="DeliveryCityID" />
+            <PropertyRef Name="PostalCityID" />
+            <PropertyRef Name="PaymentDays" />
+            <PropertyRef Name="PhoneNumber" />
+            <PropertyRef Name="FaxNumber" />
+            <PropertyRef Name="WebsiteURL" />
+            <PropertyRef Name="DeliveryAddressLine1" />
+            <PropertyRef Name="DeliveryPostalCode" />
+            <PropertyRef Name="PostalAddressLine1" />
+            <PropertyRef Name="PostalPostalCode" />
+            <PropertyRef Name="LastEditedBy" />
+            <PropertyRef Name="ValidFrom" />
+            <PropertyRef Name="ValidTo" />
+          </Key>
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SupplierCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="PrimaryContactPersonID" Type="Int32" Nullable="false" />
+          <Property Name="AlternateContactPersonID" Type="Int32" Nullable="false" />
+          <Property Name="DeliveryMethodID" Type="Int32" />
+          <Property Name="DeliveryCityID" Type="Int32" Nullable="false" />
+          <Property Name="PostalCityID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierReference" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BankAccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BankAccountBranch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BankAccountCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BankAccountNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BankInternationalCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentDays" Type="Int32" Nullable="false" />
+          <Property Name="InternalComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FaxNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WebsiteURL" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeliveryAddressLine1" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeliveryAddressLine2" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryPostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeliveryLocation" Type="Geography" />
+          <Property Name="PostalAddressLine1" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostalAddressLine2" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="PostalPostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <Association Name="FK_Purchasing_PurchaseOrderLines_PurchaseOrderID_Purchasing_PurchaseOrders">
+          <End Role="PurchaseOrders" Type="Self.PurchaseOrder" Multiplicity="1" />
+          <End Role="PurchaseOrderLines" Type="Self.PurchaseOrderLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrders">
+              <PropertyRef Name="PurchaseOrderID" />
+            </Principal>
+            <Dependent Role="PurchaseOrderLines">
+              <PropertyRef Name="PurchaseOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchasing_PurchaseOrders_SupplierID_Purchasing_Suppliers">
+          <End Role="Suppliers" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="PurchaseOrders" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="PurchaseOrders">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchasing_SupplierTransactions_PurchaseOrderID_Purchasing_PurchaseOrders">
+          <End Role="PurchaseOrders" Type="Self.PurchaseOrder" Multiplicity="0..1" />
+          <End Role="SupplierTransactions" Type="Self.SupplierTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrders">
+              <PropertyRef Name="PurchaseOrderID" />
+            </Principal>
+            <Dependent Role="SupplierTransactions">
+              <PropertyRef Name="PurchaseOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchasing_Suppliers_SupplierCategoryID_Purchasing_SupplierCategories">
+          <End Role="SupplierCategories" Type="Self.SupplierCategory" Multiplicity="1" />
+          <End Role="Suppliers" Type="Self.Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierCategories">
+              <PropertyRef Name="SupplierCategoryID" />
+            </Principal>
+            <Dependent Role="Suppliers">
+              <PropertyRef Name="SupplierCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchasing_SupplierTransactions_SupplierID_Purchasing_Suppliers">
+          <End Role="Suppliers" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="SupplierTransactions" Type="Self.SupplierTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="SupplierTransactions">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WideWorldImportersEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PurchaseOrderLines" EntityType="Self.PurchaseOrderLine" />
+          <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrder" />
+          <EntitySet Name="SupplierCategories" EntityType="Self.SupplierCategory" />
+          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+          <EntitySet Name="SupplierTransactions" EntityType="Self.SupplierTransaction" />
+          <EntitySet Name="SupplierCategories_Archive" EntityType="Self.SupplierCategories_Archive" />
+          <EntitySet Name="Suppliers_Archive" EntityType="Self.Suppliers_Archive" />
+          <AssociationSet Name="FK_Purchasing_PurchaseOrderLines_PurchaseOrderID_Purchasing_PurchaseOrders" Association="Self.FK_Purchasing_PurchaseOrderLines_PurchaseOrderID_Purchasing_PurchaseOrders">
+            <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
+            <End Role="PurchaseOrderLines" EntitySet="PurchaseOrderLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchasing_PurchaseOrders_SupplierID_Purchasing_Suppliers" Association="Self.FK_Purchasing_PurchaseOrders_SupplierID_Purchasing_Suppliers">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchasing_SupplierTransactions_PurchaseOrderID_Purchasing_PurchaseOrders" Association="Self.FK_Purchasing_SupplierTransactions_PurchaseOrderID_Purchasing_PurchaseOrders">
+            <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
+            <End Role="SupplierTransactions" EntitySet="SupplierTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchasing_Suppliers_SupplierCategoryID_Purchasing_SupplierCategories" Association="Self.FK_Purchasing_Suppliers_SupplierCategoryID_Purchasing_SupplierCategories">
+            <End Role="SupplierCategories" EntitySet="SupplierCategories" />
+            <End Role="Suppliers" EntitySet="Suppliers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchasing_SupplierTransactions_SupplierID_Purchasing_Suppliers" Association="Self.FK_Purchasing_SupplierTransactions_SupplierID_Purchasing_Suppliers">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="SupplierTransactions" EntitySet="SupplierTransactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WideWorldImportersModelStoreContainer" CdmEntityContainer="WideWorldImportersEntities2">
+          <EntitySetMapping Name="PurchaseOrderLines">
+            <EntityTypeMapping TypeName="WideWorldImportersModel.PurchaseOrderLine">
+              <MappingFragment StoreEntitySet="PurchaseOrderLines">
+                <ScalarProperty Name="PurchaseOrderLineID" ColumnName="PurchaseOrderLineID" />
+                <ScalarProperty Name="PurchaseOrderID" ColumnName="PurchaseOrderID" />
+                <ScalarProperty Name="StockItemID" ColumnName="StockItemID" />
+                <ScalarProperty Name="OrderedOuters" ColumnName="OrderedOuters" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ReceivedOuters" ColumnName="ReceivedOuters" />
+                <ScalarProperty Name="PackageTypeID" ColumnName="PackageTypeID" />
+                <ScalarProperty Name="ExpectedUnitPricePerOuter" ColumnName="ExpectedUnitPricePerOuter" />
+                <ScalarProperty Name="LastReceiptDate" ColumnName="LastReceiptDate" />
+                <ScalarProperty Name="IsOrderLineFinalized" ColumnName="IsOrderLineFinalized" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="LastEditedWhen" ColumnName="LastEditedWhen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrders">
+            <EntityTypeMapping TypeName="WideWorldImportersModel.PurchaseOrder">
+              <MappingFragment StoreEntitySet="PurchaseOrders">
+                <ScalarProperty Name="PurchaseOrderID" ColumnName="PurchaseOrderID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="DeliveryMethodID" ColumnName="DeliveryMethodID" />
+                <ScalarProperty Name="ContactPersonID" ColumnName="ContactPersonID" />
+                <ScalarProperty Name="ExpectedDeliveryDate" ColumnName="ExpectedDeliveryDate" />
+                <ScalarProperty Name="SupplierReference" ColumnName="SupplierReference" />
+                <ScalarProperty Name="IsOrderFinalized" ColumnName="IsOrderFinalized" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="InternalComments" ColumnName="InternalComments" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="LastEditedWhen" ColumnName="LastEditedWhen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplierCategories">
+            <EntityTypeMapping TypeName="WideWorldImportersModel.SupplierCategory">
+              <MappingFragment StoreEntitySet="SupplierCategories">
+                <ScalarProperty Name="SupplierCategoryID" ColumnName="SupplierCategoryID" />
+                <ScalarProperty Name="SupplierCategoryName" ColumnName="SupplierCategoryName" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="WideWorldImportersModel.Supplier">
+              <MappingFragment StoreEntitySet="Suppliers">
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierCategoryID" ColumnName="SupplierCategoryID" />
+                <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
+                <ScalarProperty Name="AlternateContactPersonID" ColumnName="AlternateContactPersonID" />
+                <ScalarProperty Name="DeliveryMethodID" ColumnName="DeliveryMethodID" />
+                <ScalarProperty Name="DeliveryCityID" ColumnName="DeliveryCityID" />
+                <ScalarProperty Name="PostalCityID" ColumnName="PostalCityID" />
+                <ScalarProperty Name="SupplierReference" ColumnName="SupplierReference" />
+                <ScalarProperty Name="BankAccountName" ColumnName="BankAccountName" />
+                <ScalarProperty Name="BankAccountBranch" ColumnName="BankAccountBranch" />
+                <ScalarProperty Name="BankAccountCode" ColumnName="BankAccountCode" />
+                <ScalarProperty Name="BankAccountNumber" ColumnName="BankAccountNumber" />
+                <ScalarProperty Name="BankInternationalCode" ColumnName="BankInternationalCode" />
+                <ScalarProperty Name="PaymentDays" ColumnName="PaymentDays" />
+                <ScalarProperty Name="InternalComments" ColumnName="InternalComments" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+                <ScalarProperty Name="WebsiteURL" ColumnName="WebsiteURL" />
+                <ScalarProperty Name="DeliveryAddressLine1" ColumnName="DeliveryAddressLine1" />
+                <ScalarProperty Name="DeliveryAddressLine2" ColumnName="DeliveryAddressLine2" />
+                <ScalarProperty Name="DeliveryPostalCode" ColumnName="DeliveryPostalCode" />
+                <ScalarProperty Name="DeliveryLocation" ColumnName="DeliveryLocation" />
+                <ScalarProperty Name="PostalAddressLine1" ColumnName="PostalAddressLine1" />
+                <ScalarProperty Name="PostalAddressLine2" ColumnName="PostalAddressLine2" />
+                <ScalarProperty Name="PostalPostalCode" ColumnName="PostalPostalCode" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplierTransactions">
+            <EntityTypeMapping TypeName="WideWorldImportersModel.SupplierTransaction">
+              <MappingFragment StoreEntitySet="SupplierTransactions">
+                <ScalarProperty Name="SupplierTransactionID" ColumnName="SupplierTransactionID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="TransactionTypeID" ColumnName="TransactionTypeID" />
+                <ScalarProperty Name="PurchaseOrderID" ColumnName="PurchaseOrderID" />
+                <ScalarProperty Name="PaymentMethodID" ColumnName="PaymentMethodID" />
+                <ScalarProperty Name="SupplierInvoiceNumber" ColumnName="SupplierInvoiceNumber" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="AmountExcludingTax" ColumnName="AmountExcludingTax" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="TransactionAmount" ColumnName="TransactionAmount" />
+                <ScalarProperty Name="OutstandingBalance" ColumnName="OutstandingBalance" />
+                <ScalarProperty Name="FinalizationDate" ColumnName="FinalizationDate" />
+                <ScalarProperty Name="IsFinalized" ColumnName="IsFinalized" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="LastEditedWhen" ColumnName="LastEditedWhen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplierCategories_Archive">
+            <EntityTypeMapping TypeName="WideWorldImportersModel.SupplierCategories_Archive">
+              <MappingFragment StoreEntitySet="SupplierCategories_Archive">
+                <ScalarProperty Name="SupplierCategoryID" ColumnName="SupplierCategoryID" />
+                <ScalarProperty Name="SupplierCategoryName" ColumnName="SupplierCategoryName" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers_Archive">
+            <EntityTypeMapping TypeName="WideWorldImportersModel.Suppliers_Archive">
+              <MappingFragment StoreEntitySet="Suppliers_Archive">
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierCategoryID" ColumnName="SupplierCategoryID" />
+                <ScalarProperty Name="PrimaryContactPersonID" ColumnName="PrimaryContactPersonID" />
+                <ScalarProperty Name="AlternateContactPersonID" ColumnName="AlternateContactPersonID" />
+                <ScalarProperty Name="DeliveryMethodID" ColumnName="DeliveryMethodID" />
+                <ScalarProperty Name="DeliveryCityID" ColumnName="DeliveryCityID" />
+                <ScalarProperty Name="PostalCityID" ColumnName="PostalCityID" />
+                <ScalarProperty Name="SupplierReference" ColumnName="SupplierReference" />
+                <ScalarProperty Name="BankAccountName" ColumnName="BankAccountName" />
+                <ScalarProperty Name="BankAccountBranch" ColumnName="BankAccountBranch" />
+                <ScalarProperty Name="BankAccountCode" ColumnName="BankAccountCode" />
+                <ScalarProperty Name="BankAccountNumber" ColumnName="BankAccountNumber" />
+                <ScalarProperty Name="BankInternationalCode" ColumnName="BankInternationalCode" />
+                <ScalarProperty Name="PaymentDays" ColumnName="PaymentDays" />
+                <ScalarProperty Name="InternalComments" ColumnName="InternalComments" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+                <ScalarProperty Name="WebsiteURL" ColumnName="WebsiteURL" />
+                <ScalarProperty Name="DeliveryAddressLine1" ColumnName="DeliveryAddressLine1" />
+                <ScalarProperty Name="DeliveryAddressLine2" ColumnName="DeliveryAddressLine2" />
+                <ScalarProperty Name="DeliveryPostalCode" ColumnName="DeliveryPostalCode" />
+                <ScalarProperty Name="DeliveryLocation" ColumnName="DeliveryLocation" />
+                <ScalarProperty Name="PostalAddressLine1" ColumnName="PostalAddressLine1" />
+                <ScalarProperty Name="PostalAddressLine2" ColumnName="PostalAddressLine2" />
+                <ScalarProperty Name="PostalPostalCode" ColumnName="PostalPostalCode" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
